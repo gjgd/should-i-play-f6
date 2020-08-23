@@ -3,12 +3,24 @@ import pprint as pp
 
 db_name = "lichess_db_standard_rated_2020-07.pgn"
 
-limit = 1e5
+limit = 1e4
 i = 0
 games = 0
-all_games = {}
-games_where_white_played_f3 = {}
-games_where_black_played_f6 = {}
+all_games = {
+    "1-0":0,
+    "0-1": 0,
+    "1/2-1/2": 0
+}
+games_where_white_played_f3 = {
+    "1-0":0,
+    "0-1": 0,
+    "1/2-1/2": 0
+}
+games_where_black_played_f6 = {
+    "1-0":0,
+    "0-1": 0,
+    "1/2-1/2": 0
+}
 for i in range(40):
     all_games[i * 100] = {
        "1-0":0,
@@ -55,6 +67,23 @@ with open(db_name) as f:
             # Stats about all the games
             average_elo = (white_elo + black_elo) / 2
             all_games[average_elo - average_elo % 100][score] += 1
+
+# Consolidate simple stats
+for i in range(40):
+    # White
+    games_where_white_played_f3['1-0'] += games_where_white_played_f3[i * 100]['1-0']
+    games_where_white_played_f3['0-1'] += games_where_white_played_f3[i * 100]['0-1']
+    games_where_white_played_f3['1/2-1/2'] += games_where_white_played_f3[i * 100]['1/2-1/2']
+
+    # Black
+    games_where_black_played_f6['1-0'] += games_where_black_played_f6[i * 100]['1-0']
+    games_where_black_played_f6['0-1'] += games_where_black_played_f6[i * 100]['0-1']
+    games_where_black_played_f6['1/2-1/2'] += games_where_black_played_f6[i * 100]['1/2-1/2']
+
+    # All
+    all_games['1-0'] += all_games[i * 100]['1-0']
+    all_games['0-1'] += all_games[i * 100]['0-1']
+    all_games['1/2-1/2'] += all_games[i * 100]['1/2-1/2']
 
 
 # Compute advantage score = (games won - games lost) / number of games
