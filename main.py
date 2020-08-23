@@ -3,7 +3,7 @@ import pprint as pp
 
 db_name = "lichess_db_standard_rated_2020-07.pgn"
 
-limit = 1e5
+limit = 1e3
 i = 0
 games = 0
 games_where_white_played_f3 = {}
@@ -47,6 +47,24 @@ with open(db_name) as f:
             if black_played_f6:
                 games_where_black_played_f6[black_elo - black_elo % 100][score] += 1
 
+
+for i in range(40):
+    # Good decision score = games won / games lost
+    # White
+    white_games = games_where_white_played_f3[i * 100]
+    number_of_white_games = white_games['1-0'] + white_games['0-1'] + white_games['1/2-1/2']
+    if number_of_white_games > 0:
+        white_games['advantage_score'] = (white_games['1-0'] - white_games['0-1']) / number_of_white_games
+    else:
+        del games_where_white_played_f3[i * 100]
+
+    # Black
+    black_games = games_where_black_played_f6[i * 100]
+    number_of_black_games = black_games['1-0'] + black_games['0-1'] + black_games['1/2-1/2']
+    if number_of_black_games > 0:
+        black_games['advantage_score'] = (black_games['0-1'] - black_games['1-0']) / number_of_black_games
+    else:
+        del games_where_black_played_f6[i * 100]
 
 print("Number of games played", games)
 print("Games where white played f3")
