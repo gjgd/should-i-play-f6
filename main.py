@@ -3,12 +3,18 @@ import pprint as pp
 
 db_name = "lichess_db_standard_rated_2020-07.pgn"
 
-limit = 1e3
+limit = 1e5
 i = 0
 games = 0
+all_games = {}
 games_where_white_played_f3 = {}
 games_where_black_played_f6 = {}
 for i in range(40):
+    all_games[i * 100] = {
+       "1-0":0,
+       "0-1": 0,
+       "1/2-1/2": 0
+    }
     games_where_white_played_f3[i * 100] = {
        "1-0":0,
        "0-1": 0,
@@ -46,10 +52,13 @@ with open(db_name) as f:
             black_played_f6 = re.findall(r'[^\.] f6', line)
             if black_played_f6:
                 games_where_black_played_f6[black_elo - black_elo % 100][score] += 1
+            # Stats about all the games
+            average_elo = (white_elo + black_elo) / 2
+            all_games[average_elo - average_elo % 100][score] += 1
 
 
+# Compute advantage score = (games won - games lost) / number of games
 for i in range(40):
-    # Good decision score = games won / games lost
     # White
     white_games = games_where_white_played_f3[i * 100]
     number_of_white_games = white_games['1-0'] + white_games['0-1'] + white_games['1/2-1/2']
@@ -66,7 +75,15 @@ for i in range(40):
     else:
         del games_where_black_played_f6[i * 100]
 
+    # All
+    all = all_games[i * 100]
+    number_or_games = all['1-0'] + all['0-1'] + all['1/2-1/2']
+    if number_or_games == 0:
+        del all_games[i * 100]
+
 print("Number of games played", games)
+print("All games")
+pp.pprint(all_games)
 print("Games where white played f3")
 pp.pprint(games_where_white_played_f3)
 print("Games where black played f6")
