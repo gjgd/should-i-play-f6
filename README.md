@@ -50,3 +50,8 @@ Both average scores are negative, which indicates **playing f3/f6 is indeed a ba
 In any case, even though on average white is slightly more likely to win than black, when they play f3/f6 they both have a negative average score, indicating that there change of winning is less than 50%. Hence playing f3/f6 is negatively affecting black and white's average score.
 
 GM Ben Finegold seems to be right!
+
+## TODOs
+
+- replace "advantage" with "average score"
+- write section about comparing by elo: What I find really cool about this result is that the data confirms the intuition: f3/f6 is a complicated move which will trip up weaker player, but can be used a tool to win for stronger player. Corrolation is almost linear!
