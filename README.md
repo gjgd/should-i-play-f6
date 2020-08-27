@@ -78,4 +78,4 @@ My interpretation of this graph is that f3/f6 is a complicated move. Beginners w
 
 I found this to be a cool discovery and thought I'd share it with the chess community, let me know what your interpretation is :-)
 
-As a conclusion, if [like 90%](see https://lichess.org/stat/rating/distribution/blitz) of the playerbase you are under 2000 elo, you should listen to GM Ben Finegold and never play f6!
+As a conclusion, if [like 90%](https://lichess.org/stat/rating/distribution/blitz) of the playerbase you are under 2000 elo, you should listen to GM Ben Finegold and never play f6!
