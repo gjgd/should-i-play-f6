@@ -35,7 +35,7 @@ Now for the scores! In all those games:
 - When white played f3 they won 7.074.502 games, lost 7.846.995 and drew 929.394
 - When black played f6 they won 6.446.881 games, lost 7.967.157 and drew 870.040
 
-We could compare those numbers in terms of win rate, but those wouldn't take into account the draws, so we will define a measure called "Advantage score" for the sake of this project defined as such:
+We could compare those numbers in terms of win rate, but those wouldn't take into account the draws, so we will define a measure called "average score" for the sake of this project defined as such:
 
 average score = (number of games won - number of games lost) / number of games
 
@@ -53,5 +53,4 @@ GM Ben Finegold seems to be right!
 
 ## TODOs
 
-- replace "advantage" with "average score"
 - write section about comparing by elo: What I find really cool about this result is that the data confirms the intuition: f3/f6 is a complicated move which will trip up weaker player, but can be used a tool to win for stronger player. Corrolation is almost linear!
