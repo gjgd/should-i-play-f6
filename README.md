@@ -59,7 +59,7 @@ To answer we separated the dataset into 26 buckets: (600-699, 700-799, ..., 3100
 
 Here are the results:
 
-[Evolution of average scores by elo when f3/f6 was played](./results/plot.png)
+![Evolution of average scores by elo when f3/f6 was played](./results/plot.png)
 
 The red line represent the average score in games where white played f3
 The green line represent the average score in games where black played f6
