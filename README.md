@@ -61,9 +61,11 @@ Here are the results:
 
 ![Evolution of average scores by elo when f3/f6 was played](./results/plot.png)
 
-The red line represent the average score in games where white played f3
-The green line represent the average score in games where black played f6
-The blue line is the average score equal to 0 for reference
+🟥 The red line represent the average score in games where white played f3
+
+🟩 The green line represent the average score in games where black played f6
+
+🟦 The blue line is the average score equal to 0 for reference
 
 It was a real surprise for me to see such a strong corrolation between the elo of the player and the average score.
 - For weak players, playing f3/f6 has a negative average score, which means it is strongly corrolated to loosing the game
