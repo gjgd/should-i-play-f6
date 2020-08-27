@@ -17,7 +17,7 @@ The stats from this project come from the Lichess database website (https://data
 
 We used the games from July 2020, here is the direct link to download the games: https://database.lichess.org/standard/lichess_db_standard_rated_2020-07.pgn.bz2
 
-/!\ Beware that the compressed PGN is 17GB in size and 140GB after decompression
+⚠️ Beware that the compressed PGN is 17GB in size and 140GB after decompression
 
 ## Results
 
