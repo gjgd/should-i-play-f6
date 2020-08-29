@@ -3,40 +3,21 @@ import pprint as pp
 
 db_name = "lichess_db_standard_rated_2020-07.pgn"
 
+def record_move(database, elo, color, move, score):
+    if elo not in database:
+        database[elo] = {}
+    if color not in database[elo]:
+        database[elo][color] = {}
+    if move not in database[elo][color]:
+        database[elo][color][move] = {}
+    if score not in database[elo][color][move]:
+        database[elo][color][move][score] = 1
+    else:
+        database[elo][color][move][score] += 1
+
 limit = 1e4
-i = 0
-games = 0
-all_games = {
-    "1-0": 0,
-    "0-1": 0,
-    "1/2-1/2": 0
-}
-games_where_white_played_f3 = {
-    "1-0": 0,
-    "0-1": 0,
-    "1/2-1/2": 0
-}
-games_where_black_played_f6 = {
-    "1-0": 0,
-    "0-1": 0,
-    "1/2-1/2": 0
-}
-for i in range(40):
-    all_games[i * 100] = {
-        "1-0": 0,
-        "0-1": 0,
-        "1/2-1/2": 0
-    }
-    games_where_white_played_f3[i * 100] = {
-        "1-0": 0,
-        "0-1": 0,
-        "1/2-1/2": 0
-    }
-    games_where_black_played_f6[i * 100] = {
-        "1-0": 0,
-        "0-1": 0,
-        "1/2-1/2": 0
-    }
+n = 0
+all_games = {}
 white_elo = 0
 black_elo = 0
 with open(db_name) as f:
@@ -48,78 +29,41 @@ with open(db_name) as f:
         if "[BlackElo" in line:
             black_elo = int(re.findall('[BlackElo] "(.*)"', line)[0])
         if "1. " in line:
-            i += 1
-            if i > limit:
+            game_elo = (white_elo + black_elo) / 2
+            game_elo = int(game_elo - game_elo % 100)
+            white_elo = int(white_elo - white_elo % 100)
+            black_elo = int(black_elo - black_elo % 100)
+            n += 1
+            if n > limit:
                 break
-            games += 1
             # Ignore weirdly formatted games that don't have an outcome
             score = line.split(' ')[-1]
             if score not in ["1-0", "0-1", "1/2-1/2"]:
                 continue
-            # Stats about white playing f3
-            white_played_f3 = re.findall(r'\d\. f3', line)
-            if white_played_f3:
-                games_where_white_played_f3[white_elo -
-                                            white_elo % 100][score] += 1
-            # Stats about black playing f6
-            black_played_f6 = re.findall(r'[^\.] f6', line)
-            if black_played_f6:
-                games_where_black_played_f6[black_elo -
-                                            black_elo % 100][score] += 1
-            # Stats about all the games
-            average_elo = (white_elo + black_elo) / 2
-            all_games[average_elo - average_elo % 100][score] += 1
-
-# Consolidate simple stats
-for i in range(40):
-    # White
-    games_where_white_played_f3['1-0'] += games_where_white_played_f3[i * 100]['1-0']
-    games_where_white_played_f3['0-1'] += games_where_white_played_f3[i * 100]['0-1']
-    games_where_white_played_f3['1/2-1/2'] += games_where_white_played_f3[i * 100]['1/2-1/2']
-
-    # Black
-    games_where_black_played_f6['1-0'] += games_where_black_played_f6[i * 100]['1-0']
-    games_where_black_played_f6['0-1'] += games_where_black_played_f6[i * 100]['0-1']
-    games_where_black_played_f6['1/2-1/2'] += games_where_black_played_f6[i * 100]['1/2-1/2']
-
-    # All
-    all_games['1-0'] += all_games[i * 100]['1-0']
-    all_games['0-1'] += all_games[i * 100]['0-1']
-    all_games['1/2-1/2'] += all_games[i * 100]['1/2-1/2']
+            # Clean up annotations
+            line = re.sub(r'{[^}]+}', '', line)
+            # Go through all the moves
+            moves = line.split(' ')
+            white_to_play = True
+            for move in moves:
+                if move in ['', '1-0', '0-1', '1/2-1/2']:
+                    continue
+                if "..." in move:
+                    continue
+                if move[0].isdigit():
+                    if white_to_play == False:
+                        error = "Error in the game {} on move {}".format(
+                            line, move)
+                        raise Exception(error)
+                    white_to_play = True
+                    continue
+                if white_to_play:
+                    record_move(all_games, white_elo, "white", move, score)
+                    white_to_play = False
+                else:
+                    record_move(all_games, black_elo, "black", move, score)
+                    white_to_play = True
 
 
-# Compute average score = (games won - games lost) / number of games
-for i in range(40):
-    # White
-    white_games = games_where_white_played_f3[i * 100]
-    number_of_white_games = white_games['1-0'] + \
-        white_games['0-1'] + white_games['1/2-1/2']
-    if number_of_white_games > 0:
-        white_games['average_score'] = (
-            white_games['1-0'] - white_games['0-1']) / number_of_white_games
-    else:
-        del games_where_white_played_f3[i * 100]
-
-    # Black
-    black_games = games_where_black_played_f6[i * 100]
-    number_of_black_games = black_games['1-0'] + \
-        black_games['0-1'] + black_games['1/2-1/2']
-    if number_of_black_games > 0:
-        black_games['average_score'] = (
-            black_games['0-1'] - black_games['1-0']) / number_of_black_games
-    else:
-        del games_where_black_played_f6[i * 100]
-
-    # All
-    all = all_games[i * 100]
-    number_or_games = all['1-0'] + all['0-1'] + all['1/2-1/2']
-    if number_or_games == 0:
-        del all_games[i * 100]
-
-print("Number of games played", games)
-print("All games")
-pp.pprint(all_games)
-print("Games where white played f3")
-pp.pprint(games_where_white_played_f3)
-print("Games where black played f6")
-pp.pprint(games_where_black_played_f6)
+with open('result.json', 'wt') as out:
+    pp.pprint(all_games, stream=out)
