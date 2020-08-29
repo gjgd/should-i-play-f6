@@ -1,7 +1,13 @@
 import re
 import pprint as pp
+import json
 
 db_name = "lichess_db_standard_rated_2020-07.pgn"
+
+def sanitize_move(move):
+    # Remove annotation, captures and checks
+    sanitized_move = re.sub(r'[?!x+]', '', move)
+    return sanitized_move
 
 def record_move(database, elo, color, move, score):
     if elo not in database:
@@ -57,6 +63,7 @@ with open(db_name) as f:
                         raise Exception(error)
                     white_to_play = True
                     continue
+                move = sanitize_move(move)
                 if white_to_play:
                     record_move(all_games, white_elo, "white", move, score)
                     white_to_play = False
