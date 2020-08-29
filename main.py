@@ -72,5 +72,6 @@ with open(db_name) as f:
                     white_to_play = True
 
 
-with open('result.json', 'wt') as out:
-    pp.pprint(all_games, stream=out)
+with open('result.json', 'w') as result_file:
+    # pretty_json = json.dumps(all_games, indent=4)
+    print(all_games, file=result_file)
