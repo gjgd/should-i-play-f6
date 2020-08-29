@@ -10,16 +10,17 @@ def sanitize_move(move):
     return sanitized_move
 
 def record_move(database, elo, color, move, score):
-    if elo not in database:
-        database[elo] = {}
-    if color not in database[elo]:
-        database[elo][color] = {}
-    if move not in database[elo][color]:
-        database[elo][color][move] = {}
-    if score not in database[elo][color][move]:
-        database[elo][color][move][score] = 1
+    if color not in database:
+        database[color] = {}
+    str_elo = str(elo)
+    if str_elo not in database[color]:
+        database[color][str_elo] = {}
+    if move not in database[color][str_elo]:
+        database[color][str_elo][move] = {}
+    if score not in database[color][str_elo][move]:
+        database[color][str_elo][move][score] = 1
     else:
-        database[elo][color][move][score] += 1
+        database[color][str_elo][move][score] += 1
 
 limit = 1e4
 n = 0
@@ -72,6 +73,6 @@ with open(db_name) as f:
                     white_to_play = True
 
 
-with open('result.json', 'w') as result_file:
-    # pretty_json = json.dumps(all_games, indent=4)
-    print(all_games, file=result_file)
+with open('./app/src/data/result.json', 'w') as result_file:
+    pretty_json = json.dumps(all_games)
+    print(pretty_json, file=result_file)
