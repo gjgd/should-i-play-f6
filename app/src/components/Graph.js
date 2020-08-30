@@ -23,6 +23,6 @@ const Graph = ({ graphData }) => {
   } else {
     return <></>;
   }
-}
+};
 
 export default Graph;

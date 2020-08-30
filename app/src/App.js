@@ -33,7 +33,7 @@ function App() {
     const queryMove = getQueryParameter('move');
     const moves = color === WHITE ? whiteMoves : blackMoves;
     if (moves.includes(queryMove)) {
-      return queryMove
+      return queryMove;
     } else {
       return 'f6';
     }
@@ -53,7 +53,11 @@ function App() {
         }
         throw new Error('color should be white or black');
       });
-      const firstRow = ['x', `games where ${color} played ${move}`, 'all games'];
+      const firstRow = [
+        'x',
+        `games where ${color} played ${move}`,
+        'all games',
+      ];
       setGraphData([firstRow, ...graphData]);
     };
 
