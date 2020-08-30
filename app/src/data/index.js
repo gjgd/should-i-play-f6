@@ -1,6 +1,9 @@
 import data from './result.json';
 import { computeScore, WHITE, BLACK } from '../utils';
 
+const blackMoves = Object.keys(data[BLACK]);
+const whiteMoves = Object.keys(data[WHITE]);
+
 const blackAverage = Object.entries(data[BLACK]['*']).reduce((acc, [elo, outcome]) => {
   return {
     ...acc,
@@ -33,4 +36,12 @@ if (whiteTotal !== blackTotal) {
   throw new Error('totals are not matching');
 }
 
-export { blackAverage, whiteAverage, data, blackTotal, whiteTotal };
+export {
+  blackAverage,
+  whiteAverage,
+  data,
+  blackTotal,
+  whiteTotal,
+  blackMoves,
+  whiteMoves,
+};

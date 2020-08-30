@@ -3,14 +3,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Chart from "react-google-charts";
 import { WHITE, BLACK, computeScore } from './utils';
-import { blackAverage, whiteAverage, data, whiteTotal } from './data';
+import { blackAverage, whiteAverage, data, whiteTotal, blackMoves, whiteMoves } from './data';
 
 function App() {
-  const [color, setColor] = React.useState(WHITE);
+  const [color, setColor] = React.useState(BLACK);
   const [graphData, setGraphData] = React.useState(null);
-  const move = 'f6';
+  const [move, setMove] = React.useState('f6');
 
   React.useEffect(() => {
     const computeGraph = () => {
@@ -30,7 +32,7 @@ function App() {
     };
 
     computeGraph();
-  }, [color]);
+  }, [color, move]);
 
   const handleChange = (event) => {
     setColor(event.target.value);
@@ -40,7 +42,7 @@ function App() {
     <div className='App'>
       <Paper elevation={3}>
         <Typography variant='h2' component='h2' gutterBottom>
-          Should I play f6?
+          Should I play {move}?
         </Typography>
         <Typography variant='subtitle1' gutterBottom>
           Database contains {whiteTotal} games
@@ -67,6 +69,19 @@ function App() {
               />
             }
             label={BLACK}
+          />
+          <Autocomplete
+            id='combo-box-demo'
+            options={color === WHITE ? whiteMoves : blackMoves}
+            getOptionLabel={(option) => option}
+            style={{ width: 100 }}
+            renderInput={(params) => (
+              <TextField {...params} label='Move' variant='outlined' />
+            )}
+            value={move}
+            onChange={(event, newValue) => {
+              setMove(newValue);
+            }}
           />
           {graphData && graphData.length > 1 ? (
             <Chart
