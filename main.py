@@ -8,6 +8,9 @@ db_name = "lichess_db_standard_rated_2020-07.pgn"
 def sanitize_move(move):
     # Remove annotation, captures and checks and mate
     sanitized_move = re.sub(r'[?!x+#]', '', move)
+    # Remove position character. Example: R1d1 -> Rd1 or Ndf2 -> Nf2
+    if len(sanitized_move) == 4 and sanitized_move[0] in ['R', 'N', 'Q']:
+        sanitized_move = sanitized_move[0] + sanitized_move[2:]
     return sanitized_move
 
 def record_move(database, elo, color, move, score):
