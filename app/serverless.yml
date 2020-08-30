@@ -1,0 +1,10 @@
+app: should-i-play-f6
+name: should-i-play-f6
+component: website
+
+inputs:
+  domain: should-i-play-f6.gjgd.xyz
+  src:
+    src: ./src
+    hook: npm run build
+    dist: ./build
