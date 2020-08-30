@@ -8,6 +8,7 @@ import {
   WHITE,
   BLACK,
   computeScore,
+  computeNumberOfGames,
   updateQueryParameter,
   getQueryParameter,
 } from './utils';
@@ -20,7 +21,7 @@ import {
   whiteMoves,
 } from './data';
 
-function App() {
+const App = () => {
   const [color, setColor] = React.useState(() => {
     const queryColor = getQueryParameter('color');
     if ([WHITE, BLACK].includes(queryColor)) {
@@ -39,29 +40,30 @@ function App() {
     }
   });
   const [graphData, setGraphData] = React.useState(null);
+  const [graphTitle, setGraphTitle] = React.useState('');
 
   React.useEffect(() => {
-    const computeGraph = () => {
-      const moveData = data[color][move] || {};
-      const graphData = Object.entries(moveData).map(([elo, outcome]) => {
-        const score = computeScore(outcome);
-        if (color === WHITE) {
-          return [elo, score, whiteAverage[elo]];
-        }
-        if (color === BLACK) {
-          return [elo, score, blackAverage[elo]];
-        }
-        throw new Error('color should be white or black');
-      });
-      const firstRow = [
-        'x',
-        `games where ${color} played ${move}`,
-        'all games',
-      ];
-      setGraphData([firstRow, ...graphData]);
-    };
-
-    computeGraph();
+    const moveData = data[color][move] || {};
+    const numberOfGames = computeNumberOfGames(moveData);
+    const graphData = Object.entries(moveData).map(([elo, outcome]) => {
+      const score = computeScore(outcome);
+      if (color === WHITE) {
+        return [elo, score, whiteAverage[elo]];
+      }
+      if (color === BLACK) {
+        return [elo, score, blackAverage[elo]];
+      }
+      throw new Error('color should be white or black');
+    });
+    const firstRow = [
+      'x',
+      `games where ${color} played ${move}`,
+      'all games',
+    ];
+    setGraphData([firstRow, ...graphData]);
+    setGraphTitle(
+      `There are ${numberOfGames} games where ${color} played ${move}`,
+    );
     updateQueryParameter('color', color);
     updateQueryParameter('move', move);
   }, [color, move]);
@@ -73,12 +75,10 @@ function App() {
   return (
     <div className='App'>
       <Paper elevation={3}>
-        <Typography variant='h2' component='h2' gutterBottom>
+        <Typography variant='h2' component='h2'>
           Should I play {move}?
         </Typography>
-        <Typography variant='subtitle1' gutterBottom>
-          Database contains {whiteTotal} games
-        </Typography>
+        <Typography>Database contains {whiteTotal} games</Typography>
         <div>
           <FormControlLabel
             value={WHITE}
@@ -109,7 +109,7 @@ function App() {
               setMove(newValue);
             }}
           />
-          <Graph graphData={graphData} />
+          <Graph graphData={graphData} title={graphTitle} />
         </div>
       </Paper>
     </div>

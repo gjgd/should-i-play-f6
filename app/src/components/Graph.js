@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'react-google-charts';
 
-const Graph = ({ graphData }) => {
+const Graph = ({ graphData, title }) => {
   if (graphData && graphData.length > 1) {
     return (
       <Chart
@@ -11,6 +11,7 @@ const Graph = ({ graphData }) => {
         loader={<div>Loading Chart</div>}
         data={graphData}
         options={{
+          title,
           hAxis: {
             title: 'Elo',
           },

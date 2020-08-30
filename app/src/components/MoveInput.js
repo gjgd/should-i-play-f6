@@ -10,7 +10,7 @@ const MoveInput = ({ color, move, onChange }) => {
       id='move-input'
       options={color === WHITE ? whiteMoves : blackMoves}
       getOptionLabel={(option) => option}
-      style={{ width: 100 }}
+      style={{ width: 150 }}
       renderInput={(params) => (
         <TextField {...params} label='Move' variant='outlined' />
       )}
