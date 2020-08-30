@@ -1,9 +1,7 @@
 import React from 'react';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
-import Radio from '@material-ui/core/Radio';
 import Typography from '@material-ui/core/Typography';
-import { MoveInput, Graph } from './components';
+import { MoveInput, Graph, ColorRadioButtons } from './components';
 import {
   WHITE,
   BLACK,
@@ -68,10 +66,6 @@ const App = () => {
     updateQueryParameter('move', move);
   }, [color, move]);
 
-  const handleChange = (event) => {
-    setColor(event.target.value);
-  };
-
   return (
     <div className='App'>
       <Paper elevation={3}>
@@ -79,38 +73,17 @@ const App = () => {
           Should I play {move}?
         </Typography>
         <Typography>Database contains {whiteTotal} games</Typography>
-        <div>
-          <FormControlLabel
-            value={WHITE}
-            control={
-              <Radio
-                checked={color === WHITE}
-                onChange={handleChange}
-                color='primary'
-              />
-            }
-            label={WHITE}
-          />
-          <FormControlLabel
-            value={BLACK}
-            control={
-              <Radio
-                checked={color === BLACK}
-                onChange={handleChange}
-                color='primary'
-              />
-            }
-            label={BLACK}
-          />
-          <MoveInput
-            color={color}
-            move={move}
-            onChange={(_, newValue) => {
-              setMove(newValue);
-            }}
-          />
-          <Graph graphData={graphData} title={graphTitle} />
-        </div>
+        <ColorRadioButtons color={color} onChange={(event) => {
+          setColor(event.target.value);
+        }} />
+        <MoveInput
+          color={color}
+          move={move}
+          onChange={(_, newValue) => {
+            setMove(newValue);
+          }}
+        />
+        <Graph graphData={graphData} title={graphTitle} />
       </Paper>
     </div>
   );
