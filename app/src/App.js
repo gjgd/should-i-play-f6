@@ -1,18 +1,46 @@
 import React from 'react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Chart from 'react-google-charts';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Chart from "react-google-charts";
-import { WHITE, BLACK, computeScore } from './utils';
-import { blackAverage, whiteAverage, data, whiteTotal, blackMoves, whiteMoves } from './data';
+import Typography from '@material-ui/core/Typography';
+import {
+  WHITE,
+  BLACK,
+  computeScore,
+  updateQueryParameter,
+  getQueryParameter,
+} from './utils';
+import {
+  blackAverage,
+  whiteAverage,
+  data,
+  whiteTotal,
+  blackMoves,
+  whiteMoves,
+} from './data';
 
 function App() {
-  const [color, setColor] = React.useState(BLACK);
+  const [color, setColor] = React.useState(() => {
+    const queryColor = getQueryParameter('color');
+    if ([WHITE, BLACK].includes(queryColor)) {
+      return queryColor;
+    } else {
+      return BLACK;
+    }
+  });
+  const [move, setMove] = React.useState(() => {
+    const queryMove = getQueryParameter('move');
+    const moves = color === WHITE ? whiteMoves : blackMoves;
+    if (moves.includes(queryMove)) {
+      return queryMove
+    } else {
+      return 'f6';
+    }
+  });
   const [graphData, setGraphData] = React.useState(null);
-  const [move, setMove] = React.useState('f6');
 
   React.useEffect(() => {
     const computeGraph = () => {
@@ -32,6 +60,8 @@ function App() {
     };
 
     computeGraph();
+    updateQueryParameter('color', color);
+    updateQueryParameter('move', move);
   }, [color, move]);
 
   const handleChange = (event) => {

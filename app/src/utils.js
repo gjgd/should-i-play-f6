@@ -9,4 +9,17 @@ const computeScore = (outcome) => {
   return score;
 };
 
-export { WHITE, BLACK, computeScore };
+const updateQueryParameter = (key, value) => {
+  const newUrl = new URLSearchParams(window.location.search);
+  if (newUrl.get(key) !== value) {
+    newUrl.set(key, value);
+    window.history.pushState(null, '', `/?${newUrl.toString()}`);
+  }
+};
+
+const getQueryParameter = (key) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(key);
+};
+
+export { WHITE, BLACK, computeScore, updateQueryParameter, getQueryParameter };
