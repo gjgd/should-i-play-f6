@@ -2,9 +2,10 @@ import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
+import Typography from '@material-ui/core/Typography';
 import Chart from "react-google-charts";
 import { WHITE, BLACK, computeScore } from './utils';
-import { blackAverage, whiteAverage, data } from './data';
+import { blackAverage, whiteAverage, data, whiteTotal } from './data';
 
 function App() {
   const [color, setColor] = React.useState(WHITE);
@@ -38,7 +39,12 @@ function App() {
   return (
     <div className='App'>
       <Paper elevation={3}>
-        Should I play f6?
+        <Typography variant='h2' component='h2' gutterBottom>
+          Should I play f6?
+        </Typography>
+        <Typography variant='subtitle1' gutterBottom>
+          Database contains {whiteTotal} games
+        </Typography>
         <div>
           <FormControlLabel
             value={WHITE}

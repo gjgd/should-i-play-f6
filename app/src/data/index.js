@@ -33,4 +33,4 @@ if (whiteTotal !== blackTotal) {
   throw new Error('totals are not matching');
 }
 
-export { blackAverage, whiteAverage, data };
+export { blackAverage, whiteAverage, data, blackTotal, whiteTotal };
