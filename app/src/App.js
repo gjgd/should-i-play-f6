@@ -1,11 +1,11 @@
 import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Chart from 'react-google-charts';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import Graph from './Graph';
 import {
   WHITE,
   BLACK,
@@ -113,25 +113,7 @@ function App() {
               setMove(newValue);
             }}
           />
-          {graphData && graphData.length > 1 ? (
-            <Chart
-              width={'600px'}
-              height={'400px'}
-              chartType='LineChart'
-              loader={<div>Loading Chart</div>}
-              data={graphData}
-              options={{
-                hAxis: {
-                  title: 'Elo',
-                },
-                vAxis: {
-                  title: 'Average score',
-                },
-              }}
-            />
-          ) : (
-            <></>
-          )}
+          <Graph graphData={graphData} />
         </div>
       </Paper>
     </div>
