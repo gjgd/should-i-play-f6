@@ -12,15 +12,18 @@ def sanitize_move(move):
 def record_move(database, elo, color, move, score):
     if color not in database:
         database[color] = {}
+    if move not in database[color]:
+        database[color][move] = {}
     str_elo = str(elo)
-    if str_elo not in database[color]:
-        database[color][str_elo] = {}
-    if move not in database[color][str_elo]:
-        database[color][str_elo][move] = {}
-    if score not in database[color][str_elo][move]:
-        database[color][str_elo][move][score] = 1
+    if str_elo not in database[color][move]:
+        database[color][move][str_elo] = {}
+    scores = score.split('-')
+    assert(len(scores) == 2)
+    individual_score = scores[0] if color == 'white' else scores[1]
+    if individual_score not in database[color][move][str_elo]:
+        database[color][move][str_elo][individual_score] = 1
     else:
-        database[color][str_elo][move][score] += 1
+        database[color][move][str_elo][individual_score] += 1
 
 limit = 1e4
 n = 0
@@ -67,9 +70,11 @@ with open(db_name) as f:
                 move = sanitize_move(move)
                 if white_to_play:
                     record_move(all_games, white_elo, "white", move, score)
+                    record_move(all_games, white_elo, "white", '*', score)
                     white_to_play = False
                 else:
                     record_move(all_games, black_elo, "black", move, score)
+                    record_move(all_games, white_elo, "black", '*', score)
                     white_to_play = True
 
 
