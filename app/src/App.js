@@ -3,46 +3,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import Chart from "react-google-charts";
-import data from './data/result.json';
-
-const WHITE = 'white';
-const BLACK = 'black';
-
-const computeScore = (outcome) => {
-  const wins = outcome['1'] || 0;
-  const losses = outcome['0'] || 0;
-  const draws = outcome['1/2'] || 0;
-  const score = (1 * wins + 0.5 * draws + 0 * losses) / (wins + draws + losses);
-  return score;
-};
-
-const blackAverage = Object.entries(data[BLACK]['*']).reduce((acc, [elo, outcome]) => {
-  return {
-    ...acc,
-    [elo]: computeScore(outcome),
-  };
-}, {});
-const whiteAverage = Object.entries(data[WHITE]['*']).reduce((acc, [elo, outcome]) => {
-  return {
-    ...acc,
-    [elo]: computeScore(outcome),
-  };
-}, {});
-const blackTotal = Object.entries(data[BLACK]['*']).reduce((acc, [elo, outcome]) => {
-  const wins = outcome['1'] || 0;
-  const losses = outcome['0'] || 0;
-  const draws = outcome['1/2'] || 0;
-  return acc + wins + losses + draws;
-}, 0);
-const whiteTotal = Object.entries(data[WHITE]['*']).reduce((acc, [elo, outcome]) => {
-  const wins = outcome['1'] || 0;
-  const losses = outcome['0'] || 0;
-  const draws = outcome['1/2'] || 0;
-  return acc + wins + losses + draws;
-}, 0);
-if (whiteTotal !== blackTotal) {
-  throw new Error('totals are not matching');
-}
+import { WHITE, BLACK, computeScore } from './utils';
+import { blackAverage, whiteAverage, data } from './data';
 
 function App() {
   const [color, setColor] = React.useState(WHITE);
@@ -72,7 +34,6 @@ function App() {
   const handleChange = (event) => {
     setColor(event.target.value);
   };
-
 
   return (
     <div className='App'>
@@ -115,11 +76,7 @@ function App() {
                 vAxis: {
                   title: 'Average score',
                 },
-                series: {
-                  1: { curveType: 'function' },
-                },
               }}
-              rootProps={{ 'data-testid': '2' }}
             />
           ) : (
             <></>
