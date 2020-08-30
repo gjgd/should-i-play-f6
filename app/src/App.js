@@ -2,7 +2,6 @@ import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
-import Button from '@material-ui/core/Button';
 import Chart from "react-google-charts";
 import data from './data/result.json';
 
@@ -50,24 +49,29 @@ function App() {
   const [graphData, setGraphData] = React.useState(null);
   const move = 'f6';
 
+  React.useEffect(() => {
+    const computeGraph = () => {
+      const moveData = data[color][move] || {};
+      const graphData = Object.entries(moveData).map(([elo, outcome]) => {
+        const score = computeScore(outcome);
+        if (color === WHITE) {
+          return [elo, score, whiteAverage[elo]];
+        }
+        if (color === BLACK) {
+          return [elo, score, blackAverage[elo]];
+        }
+        throw new Error('color should be white or black');
+      });
+      const firstRow = ['x', `games where ${color} played ${move}`, 'all games'];
+      setGraphData([firstRow, ...graphData]);
+    };
+
+    computeGraph();
+  }, [color]);
+
   const handleChange = (event) => {
     setColor(event.target.value);
   };
-
-  const computeGraph = () => {
-    const moveData = data[color][move] || {};
-    const graphData = Object.entries(moveData).map(([elo, outcome]) => {
-      const score = computeScore(outcome);
-      if (color === WHITE) {
-        return [elo, score, whiteAverage[elo]];
-      }
-      if (color === BLACK) {
-        return [elo, score, blackAverage[elo]];
-      }
-    });
-    const firstRow = ['x', `games where ${color} played ${move}`, 'all games'];
-    setGraphData([firstRow, ...graphData]);
-  }
 
 
   return (
@@ -97,9 +101,6 @@ function App() {
             }
             label={BLACK}
           />
-          <Button onClick={computeGraph} color='primary'>
-            Compute graph
-          </Button>
           {graphData && graphData.length > 1 ? (
             <Chart
               width={'600px'}
