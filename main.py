@@ -6,8 +6,8 @@ from tqdm import tqdm
 db_name = "lichess_db_standard_rated_2020-07.pgn"
 
 def sanitize_move(move):
-    # Remove annotation, captures and checks
-    sanitized_move = re.sub(r'[?!x+]', '', move)
+    # Remove annotation, captures and checks and mate
+    sanitized_move = re.sub(r'[?!x+#]', '', move)
     return sanitized_move
 
 def record_move(database, elo, color, move, score):
