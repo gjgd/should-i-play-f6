@@ -1,11 +1,9 @@
 import React from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Graph from './Graph';
+import { MoveInput, Graph } from './components';
 import {
   WHITE,
   BLACK,
@@ -100,16 +98,10 @@ function App() {
             }
             label={BLACK}
           />
-          <Autocomplete
-            id='combo-box-demo'
-            options={color === WHITE ? whiteMoves : blackMoves}
-            getOptionLabel={(option) => option}
-            style={{ width: 100 }}
-            renderInput={(params) => (
-              <TextField {...params} label='Move' variant='outlined' />
-            )}
-            value={move}
-            onChange={(event, newValue) => {
+          <MoveInput
+            color={color}
+            move={move}
+            onChange={(_, newValue) => {
               setMove(newValue);
             }}
           />
