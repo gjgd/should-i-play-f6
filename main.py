@@ -59,6 +59,8 @@ with tqdm(total=limit) as pbar:
                 # Go through all the moves
                 moves = line.split(' ')
                 white_to_play = True
+                record_move(all_games, white_elo, "white", '*', score)
+                record_move(all_games, black_elo, "black", '*', score)
                 for move in moves:
                     if move in ['', '1-0', '0-1', '1/2-1/2']:
                         continue
@@ -74,11 +76,9 @@ with tqdm(total=limit) as pbar:
                     move = sanitize_move(move)
                     if white_to_play:
                         record_move(all_games, white_elo, "white", move, score)
-                        record_move(all_games, white_elo, "white", '*', score)
                         white_to_play = False
                     else:
                         record_move(all_games, black_elo, "black", move, score)
-                        record_move(all_games, white_elo, "black", '*', score)
                         white_to_play = True
 
 
