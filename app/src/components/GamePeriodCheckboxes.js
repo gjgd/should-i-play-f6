@@ -9,9 +9,9 @@ export default function GamePeriodCheckboxes({ onChange, gamePeriods }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={gamePeriods[0]}
+            checked={gamePeriods['O']}
             onChange={onChange}
-            name="0"
+            name="O"
             color="primary"
           />
         }
@@ -20,9 +20,9 @@ export default function GamePeriodCheckboxes({ onChange, gamePeriods }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={gamePeriods[1]}
+            checked={gamePeriods['M']}
             onChange={onChange}
-            name="1"
+            name="M"
             color="primary"
           />
         }
@@ -31,9 +31,9 @@ export default function GamePeriodCheckboxes({ onChange, gamePeriods }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={gamePeriods[2]}
+            checked={gamePeriods['E']}
             onChange={onChange}
-            name="2"
+            name="E"
             color="primary"
           />
         }

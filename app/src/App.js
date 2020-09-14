@@ -39,7 +39,14 @@ const App = () => {
   });
   const [graphData, setGraphData] = React.useState(null);
   const [graphTitle, setGraphTitle] = React.useState('');
-  const [gamePeriods, setGamePeriods] = React.useState([true, true, true]);
+  const [gamePeriods, setGamePeriods] = React.useState({
+    // openings
+    O: true,
+    // middlegames
+    M: true,
+    // endgames
+    E: true,
+  });
 
   React.useEffect(() => {
     const moveData = data[color][move] || {};
@@ -85,8 +92,10 @@ const App = () => {
           }}
         />
         <GamePeriodCheckboxes gamePeriods={gamePeriods} onChange={(event) => {
-          const newGamePeriods = [...gamePeriods];
-          newGamePeriods[event.target.name] = Boolean(event.target.checked);
+          const newGamePeriods = {
+            ...gamePeriods,
+            [event.target.name]: Boolean(event.target.checked),
+          };
           setGamePeriods(newGamePeriods);
         }} />
         <Graph graphData={graphData} title={graphTitle} />
