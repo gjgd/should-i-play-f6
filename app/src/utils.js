@@ -1,3 +1,5 @@
+import ReactGA from 'react-ga';
+
 const WHITE = 'white';
 const BLACK = 'black';
 
@@ -24,7 +26,12 @@ const updateQueryParameter = (key, value) => {
   const newUrl = new URLSearchParams(window.location.search);
   if (newUrl.get(key) !== value) {
     newUrl.set(key, value);
-    window.history.pushState(null, '', `/?${newUrl.toString()}`);
+    const newPage = `/?${newUrl.toString()}`;
+    ReactGA.event({
+      category: 'User',
+      action: newPage
+    });
+    window.history.pushState(null, '', newPage);
   }
 };
 

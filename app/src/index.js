@@ -2,6 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import ReactGA from 'react-ga';
+
+const trackingId = 'UA-177950673-1';
+
+ReactGA.initialize(trackingId);
+ReactGA.event({
+  category: 'User',
+  action: window.location.search
+});
 
 ReactDOM.render(
   <React.StrictMode>
