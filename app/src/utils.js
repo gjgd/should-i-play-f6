@@ -18,11 +18,18 @@ const computeScore = (outcome, gamePeriods = { A: true }) => {
   return score;
 };
 
-const computeNumberOfGames = (moveData) => {
+const computeNumberOfGames = (moveData, gamePeriods) => {
   const numberOfGames = Object.values(moveData).reduce((acc, outcome) => {
-    const wins = outcome['1'] || 0;
-    const losses = outcome['0'] || 0;
-    const draws = outcome['1/2'] || 0;
+    let wins = 0;
+    let losses = 0;
+    let draws = 0;
+    Object.entries(outcome).forEach(([gamePeriod, scores]) => {
+      if (gamePeriods[gamePeriod]) {
+        wins += scores['1'] || 0;
+        losses += scores['0'] || 0;
+        draws += scores['1/2'] || 0;
+      }
+    });
     return acc + wins + losses + draws;
   }, 0);
 

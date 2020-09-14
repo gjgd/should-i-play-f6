@@ -50,7 +50,7 @@ const App = () => {
 
   React.useEffect(() => {
     const moveData = data[color][move] || {};
-    const numberOfGames = computeNumberOfGames(moveData);
+    const numberOfGames = computeNumberOfGames(moveData, gamePeriods);
     const graphData = Object.entries(moveData).map(([elo, outcome]) => {
       const score = computeScore(outcome, gamePeriods);
       if (color === WHITE) {
