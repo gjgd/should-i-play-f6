@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { MoveInput, Graph, ColorRadioButtons } from './components';
+import { MoveInput, Graph, ColorRadioButtons, GamePeriodCheckboxes } from './components';
 import {
   WHITE,
   BLACK,
@@ -39,6 +39,7 @@ const App = () => {
   });
   const [graphData, setGraphData] = React.useState(null);
   const [graphTitle, setGraphTitle] = React.useState('');
+  const [gamePeriods, setGamePeriods] = React.useState([true, true, true]);
 
   React.useEffect(() => {
     const moveData = data[color][move] || {};
@@ -83,6 +84,11 @@ const App = () => {
             setMove(newValue);
           }}
         />
+        <GamePeriodCheckboxes gamePeriods={gamePeriods} onChange={(event) => {
+          const newGamePeriods = [...gamePeriods];
+          newGamePeriods[event.target.name] = Boolean(event.target.checked);
+          setGamePeriods(newGamePeriods);
+        }} />
         <Graph graphData={graphData} title={graphTitle} />
       </Paper>
     </div>
