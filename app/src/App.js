@@ -52,7 +52,7 @@ const App = () => {
     const moveData = data[color][move] || {};
     const numberOfGames = computeNumberOfGames(moveData);
     const graphData = Object.entries(moveData).map(([elo, outcome]) => {
-      const score = computeScore(outcome);
+      const score = computeScore(outcome, gamePeriods);
       if (color === WHITE) {
         return [elo, score, whiteAverage[elo]];
       }
@@ -72,7 +72,7 @@ const App = () => {
     );
     updateQueryParameter('color', color);
     updateQueryParameter('move', move);
-  }, [color, move]);
+  }, [color, move, gamePeriods]);
 
   return (
     <div className='App'>

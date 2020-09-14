@@ -3,10 +3,17 @@ import ReactGA from 'react-ga';
 const WHITE = 'white';
 const BLACK = 'black';
 
-const computeScore = (outcome) => {
-  const wins = outcome['1'] || 0;
-  const losses = outcome['0'] || 0;
-  const draws = outcome['1/2'] || 0;
+const computeScore = (outcome, gamePeriods = { A: true }) => {
+  let wins = 0;
+  let losses = 0;
+  let draws = 0;
+  Object.entries(outcome).forEach(([gamePeriod, scores]) => {
+    if (gamePeriods[gamePeriod]) {
+      wins += scores['1'] || 0;
+      losses += scores['0'] || 0;
+      draws += scores['1/2'] || 0;
+    }
+  });
   const score = (1 * wins + 0.5 * draws + 0 * losses) / (wins + draws + losses);
   return score;
 };
