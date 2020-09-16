@@ -1,4 +1,4 @@
-import data from './result.json';
+import data from './remote-e7.json';
 import { computeScore, WHITE, BLACK } from '../utils';
 
 const blackMoves = Object.keys(data[BLACK]);
