@@ -1,1 +1,3 @@
 *.pgn
+results/*.json
+__pycache__
