@@ -48,7 +48,10 @@ def parseFile(f, limit):
     n = 0
     with tqdm(total=limit) as pbar:
         for line in f:
-            line = line.decode('utf-8').rstrip()
+            if isinstance(line, bytes):
+                line = line.decode('utf-8').rstrip()
+            else:
+                line = line.rstrip()
             # Get the line in the PGN that lists the moves
             if "[WhiteElo" in line:
                 white_elo = int(re.findall('[WhiteElo] "(.*)"', line)[0])
