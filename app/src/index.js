@@ -12,6 +12,8 @@ ReactGA.event({
   action: window.location.search
 });
 
+console.log(`Current commit is ${process.env.REACT_APP_CURRENT_COMMIT}`);
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

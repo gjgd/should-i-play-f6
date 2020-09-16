@@ -12,10 +12,11 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
+    "prebuild": "echo REACT_APP_CURRENT_COMMIT=$(git rev-parse --short HEAD) > .env.production.local",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --passWithNoTests --watchAll=false",
+    "lint": "eslint src"
   },
   "browserslist": {
     "production": [
