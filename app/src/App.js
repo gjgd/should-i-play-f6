@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { MoveInput, Graph, ColorRadioButtons } from './components';
+import { MoveInput, Graph, ColorRadioButtons, GamePeriodCheckboxes } from './components';
 import {
   WHITE,
   BLACK,
@@ -39,12 +39,20 @@ const App = () => {
   });
   const [graphData, setGraphData] = React.useState(null);
   const [graphTitle, setGraphTitle] = React.useState('');
+  const [gamePeriods, setGamePeriods] = React.useState({
+    // openings
+    O: true,
+    // middlegames
+    M: true,
+    // endgames
+    E: true,
+  });
 
   React.useEffect(() => {
     const moveData = data[color][move] || {};
-    const numberOfGames = computeNumberOfGames(moveData);
+    const numberOfGames = computeNumberOfGames(moveData, gamePeriods);
     const graphData = Object.entries(moveData).map(([elo, outcome]) => {
-      const score = computeScore(outcome);
+      const score = computeScore(outcome, gamePeriods);
       if (color === WHITE) {
         return [elo, score, whiteAverage[elo]];
       }
@@ -64,7 +72,7 @@ const App = () => {
     );
     updateQueryParameter('color', color);
     updateQueryParameter('move', move);
-  }, [color, move]);
+  }, [color, move, gamePeriods]);
 
   return (
     <div className='App'>
@@ -83,6 +91,13 @@ const App = () => {
             setMove(newValue);
           }}
         />
+        <GamePeriodCheckboxes gamePeriods={gamePeriods} onChange={(event) => {
+          const newGamePeriods = {
+            ...gamePeriods,
+            [event.target.name]: Boolean(event.target.checked),
+          };
+          setGamePeriods(newGamePeriods);
+        }} />
         <Graph graphData={graphData} title={graphTitle} />
       </Paper>
     </div>

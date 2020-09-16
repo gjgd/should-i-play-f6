@@ -1,4 +1,4 @@
-import data from './result.json';
+import data from './remote-e7.json';
 import { computeScore, WHITE, BLACK } from '../utils';
 
 const blackMoves = Object.keys(data[BLACK]);
@@ -26,9 +26,9 @@ const whiteAverage = Object.entries(data[WHITE]['*']).reduce(
 
 const blackTotal = Object.entries(data[BLACK]['*']).reduce(
   (acc, [elo, outcome]) => {
-    const wins = outcome['1'] || 0;
-    const losses = outcome['0'] || 0;
-    const draws = outcome['1/2'] || 0;
+    const wins = outcome['A']['1'] || 0;
+    const losses = outcome['A']['0'] || 0;
+    const draws = outcome['A']['1/2'] || 0;
     return acc + wins + losses + draws;
   },
   0,
@@ -36,9 +36,9 @@ const blackTotal = Object.entries(data[BLACK]['*']).reduce(
 
 const whiteTotal = Object.entries(data[WHITE]['*']).reduce(
   (acc, [elo, outcome]) => {
-    const wins = outcome['1'] || 0;
-    const losses = outcome['0'] || 0;
-    const draws = outcome['1/2'] || 0;
+    const wins = outcome['A']['1'] || 0;
+    const losses = outcome['A']['0'] || 0;
+    const draws = outcome['A']['1/2'] || 0;
     return acc + wins + losses + draws;
   },
   0,
