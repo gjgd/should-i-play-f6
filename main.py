@@ -1,4 +1,5 @@
 import re
+import datetime
 import pprint as pp
 import json
 from tqdm import tqdm
@@ -102,6 +103,8 @@ with tqdm(total=limit) as pbar:
                         white_to_play = True
 
 
-with open('./app/src/data/result.json', 'w') as result_file:
+now = str(datetime.datetime.now())
+filename = './results/{}-{}.json'.format(now, int(limit))
+with open(filename, 'w') as result_file:
     pretty_json = json.dumps(all_games)
     print(pretty_json, file=result_file)
