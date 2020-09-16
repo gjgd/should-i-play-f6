@@ -17,16 +17,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: app
+        working-directory: ./app
 
       - name: Lint
         run: npm run lint
-        working-directory: app
+        working-directory: ./app
 
       - name: Test
         run: npm run test
-        working-directory: app
+        working-directory: ./app
 
       - name: Build
         run: npm run build
-        working-directory: app
+        working-directory: ./app
