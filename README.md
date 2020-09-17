@@ -1,15 +1,15 @@
-# Should I play f6 ? https://should-i-play-f6.gjgd.xyz/
+# Should I play f6 ?
 
 GM Ben Finegold notoriously says 
 > Never play f6 [as black, or f3 as white]"
 
-I was wondering if and when this is actually good advice and made a website to analyze 70.315.588 games from the Lichess July 2020 database (https://database.lichess.org/) and find out
+I was wondering if that advice was good from a statistical perspective so I made a website to analyze 70.315.588 games from the Lichess July 2020 database (https://database.lichess.org/) in order to find out:
 
 https://should-i-play-f6.gjgd.xyz/
 
 ## Features
 
-This website allows you to:
+[This website](https://should-i-play-f6.gjgd.xyz/) allows you to:
 
 - Pick any move played by white or black, and compare the average score of the games where this move was played against a baseline of the average score for all games.
 - Calculate a plot of the average score of your move as a function of the elo range, to see how successfully the move was played by players of various elo
@@ -19,7 +19,7 @@ This website allows you to:
 
 ## Should I play f6?
 
-According to the statistical analysis of 11.693.245 where f6 was played in the middle game, we can see that it has a consistently lower average score than the baseline of all games: https://should-i-play-f6.gjgd.xyz/?color=black&move=f6
+According to the statistical analysis of 11.693.245 where black played f6 in the middle game, we can see that it has a consistently lower average score than the baseline of all games: https://should-i-play-f6.gjgd.xyz/?color=black&move=f6
 
 The results are almost the same for white playing f3: on average playing this move does worse than the baseline: https://should-i-play-f6.gjgd.xyz/?color=white&move=f3
 
@@ -37,7 +37,7 @@ This concludes the initial question: playing f6 (or f3) is on average a worse mo
 
 **Ke2**: https://should-i-play-f6.gjgd.xyz/?color=white&move=Ke2. Not going to comment too much about this one, except that the site must be bugged because it shows this move as being bad even though it's clearly winning... Will have to investigate.
 
-# Additional details
+# Technical details details
 
 ## Definitions
 
@@ -68,9 +68,31 @@ All of these were removed to only keep the arithmetic notation.
 
 Additionnally I also chose to deduplicate positional notation (`Rfd1` -> `Rd1`) and captures (`Bxf7` -> `Bf7` or `exd5` -> `ed5`)
 
+# Using the project
+
+## Python script
+
+To analyze the first 10.000 games of a PGN stored locally, run:
+```bash
+python main.py lichess_db_standard_rated_2020-07.pgn 10000
+```
+
+To analyze the first 70.000.000 games from a PGN stored in S3, run:
+```bash
+python main.py s3://gjgd-chess/lichess_db_standard_rated_2020-07.pgn 70000000
+```
+
+## The web app
+
+```bash
+cd app/
+npm install
+npm run start
+```
+
 ## Tech stack
 
-- The script to build the database was written in Python
-- The webapp was writter in React JS
+- The script to build the database can be run using Python3
+- The webapp was written in React JS and uses the CRA tools
 - The deployment to AWS CloudFront is done with the Serverless framework
 - The CI/CD is ran using Github Actions.
