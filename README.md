@@ -1,10 +1,11 @@
-# Should I play f6 ?
+# Should I play f6 ? https://should-i-play-f6.gjgd.xyz/
 
-GM Ben Finegold notoriously says "Never play f6 [as black, or f3 as white]"
+GM Ben Finegold notoriously says 
+> Never play f6 [as black, or f3 as white]"
 
-I was wondering if / when this is actually good advice and made a website to find out: https://should-i-play-f6.gjgd.xyz/
+I was wondering if and when this is actually good advice and made a website to analyze 70.315.588 games from the Lichess July 2020 database (https://database.lichess.org/) and find out
 
-I used 70.315.588 games from the Lichess July 2020 database (https://database.lichess.org/) for this analysis.
+https://should-i-play-f6.gjgd.xyz/
 
 ## Features
 
@@ -36,11 +37,11 @@ This concludes the initial question: playing f6 (or f3) is on average a worse mo
 
 **Ke2**: https://should-i-play-f6.gjgd.xyz/?color=white&move=Ke2. Not going to comment too much about this one, except that the site must be bugged because it shows this move as being bad even though it's clearly winning... Will have to investigate.
 
+# Additional details
+
 ## Definitions
 
-### Average score
-
-The average score S of a move X is:
+The **average score** S of a move X is:
 `S = (1 * wins + 0.5 * draws + 0 * losses) / (wins + draws + losses)`
 
 where:
@@ -48,15 +49,24 @@ where:
 - `draws` is the number of games drawn when playing the move X
 - `losses` is the number of games lost when playing the move X
 
-### Opening / Middle game / End game
+The part of the game that happens before move 10 is the **opening**
 
-The part of the game that happens before move 10 is the opening.
+The part of the game that happens between move 10 and move 40 is the **middle game**
 
-The part of the game that happens between move 10 and move 40 is the middle game.
+The part of the game that happens after move 40 is the **endgame**
 
-The part of the game that happens after move 40 is the endgame.
+⚠️ Note that these three definitions are subjective and highly debatable, for example an engame would be more accurately defined by the point in the game where the queens are traded off, however for the purpose of this project it was simpler to just consider the number of move in order to filter out openings and engames.
 
-⚠️ Note that these three definitions are subjective and highly debatable, for example and engame would be more accurately defined by the point where the queens are traded off, however for the purpose of this project it was simpler to just consider the number of move in order to filter out openings and engames.
+## Sanitizing moves
+
+Some moves in the Lichess database came with 
+- Annotations: for example `b4!` or `Kf1??`
+- Comments: for example  `e4 [The king pawn opening]`
+- Computer analysis: for example `e4 [+0.23]`
+
+All of these were removed to only keep the arithmetic notation.
+
+Additionnally I also chose to deduplicate positional notation (`Rfd1` -> `Rd1`) and captures (`Bxf7` -> `Bf7` or `exd5` -> `ed5`)
 
 ## Tech stack
 
