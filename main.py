@@ -16,10 +16,12 @@ if len(sys.argv) != 3:
 file_name = sys.argv[1]
 limit = int(sys.argv[2])
 
+# Read the file from an s3 bucket
 if (file_name.startswith('s3://')):
     session = boto3.Session(profile_name='chess')
     with open(file_name, 'rb', transport_params={'session': session}) as f:
         all_games = parseFile(f, limit)
+# Or read the file from the local filesystem
 else:
     with open(db_name) as f:
         all_games = parseFile(f, limit)
