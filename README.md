@@ -14,7 +14,7 @@ This website allows you to:
 
 # Results
 
-Check out this reddit post for a discussion about the results: <reddit link>
+Check out this reddit post for a discussion about the results: https://www.reddit.com/r/chess/comments/iv8qxf/update_should_i_play_f6_some_extra_analysis/
 
 # Technical details
 
