@@ -2,7 +2,7 @@
 
 GM Ben Finegold notoriously says `"Never play f6 [as black, or f3 as white]"`
 
-Is this good advice from a statistical perspective? I made a website to analyze 70.315.588 games from the [Lichess July 2020 database](https://database.lichess.org/) in order to find out:
+Is this good advice from a statistical perspective? In this project, we analyze 70.315.588 games from the [Lichess online database](https://database.lichess.org/) in order to find out:
 
 # https://should-i-play-f6.gjgd.xyz/
 
