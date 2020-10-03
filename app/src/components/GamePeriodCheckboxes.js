@@ -1,13 +1,11 @@
 import React from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
-import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 export default function GamePeriodCheckboxes({ onChange, gamePeriods }) {
   return (
     <>
-      <Typography>Include games where the move was played in the</Typography>
       <FormGroup row>
         <FormControlLabel
           control={

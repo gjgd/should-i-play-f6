@@ -1,5 +1,6 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+// import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MoveInput, Graph, ColorRadioButtons, GamePeriodCheckboxes } from './components';
 import {
@@ -74,32 +75,77 @@ const App = () => {
     updateQueryParameter('move', move);
   }, [color, move, gamePeriods]);
 
-  return (
-    <div className='App'>
-      <Paper elevation={3}>
+  const Content = () => {
+    return (
+      <Grid container direction='column' /*alignItems='stretch'*/>
         <Typography variant='h2' component='h2'>
           Should I play {move}?
         </Typography>
         <Typography>Database contains {whiteTotal} games</Typography>
-        <ColorRadioButtons color={color} onChange={(event) => {
-          setColor(event.target.value);
-        }} />
-        <MoveInput
-          color={color}
-          move={move}
-          onChange={(_, newValue) => {
-            setMove(newValue);
-          }}
-        />
-        <GamePeriodCheckboxes gamePeriods={gamePeriods} onChange={(event) => {
-          const newGamePeriods = {
-            ...gamePeriods,
-            [event.target.name]: Boolean(event.target.checked),
-          };
-          setGamePeriods(newGamePeriods);
-        }} />
-        <Graph graphData={graphData} title={graphTitle} />
-      </Paper>
+        <Grid container>
+          <Grid item>
+            <Typography variant='h5'>Choose a move</Typography>
+          </Grid>
+          <Grid item container spacing={1} alignItems='center'>
+            <Grid item>
+              <Typography>Include games where</Typography>
+            </Grid>
+            <Grid item>
+              <ColorRadioButtons
+                color={color}
+                onChange={(event) => {
+                  setColor(event.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Typography>played the move</Typography>
+            </Grid>
+            <Grid item>
+              <MoveInput
+                color={color}
+                move={move}
+                onChange={(_, newValue) => {
+                  setMove(newValue);
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Typography variant='h5'>Filter by game period</Typography>
+          </Grid>
+          <Grid item container spacing={1} alignItems='center'>
+            <Grid item>
+              <Typography>
+                Include games where the move was played in the
+              </Typography>
+            </Grid>
+            <Grid item>
+              <GamePeriodCheckboxes
+                gamePeriods={gamePeriods}
+                onChange={(event) => {
+                  const newGamePeriods = {
+                    ...gamePeriods,
+                    [event.target.name]: Boolean(event.target.checked),
+                  };
+                  setGamePeriods(newGamePeriods);
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography variant='h5'>Result</Typography>
+        </Grid>
+        <Grid item>
+          <Graph graphData={graphData} title={graphTitle} />
+        </Grid>
+      </Grid>
+    );
+  }
+  return (
+    <div className='App'>
+      <Content />
     </div>
   );
 }

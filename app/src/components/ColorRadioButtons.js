@@ -5,7 +5,7 @@ import { WHITE, BLACK } from '../utils';
 
 const ColorRadioButton = ({ color, onChange }) => {
   return (
-    <>
+    <div>
       <FormControlLabel
         value={WHITE}
         control={
@@ -28,7 +28,7 @@ const ColorRadioButton = ({ color, onChange }) => {
         }
         label={BLACK}
       />
-    </>
+    </div>
   );
 };
 
