@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MoveInput, Graph, ColorRadioButtons, GamePeriodCheckboxes } from './components';
@@ -20,7 +21,14 @@ import {
   whiteMoves,
 } from './data';
 
+const useStyles = makeStyles((theme) => ({
+  title: {
+    marginTop: theme.spacing(4),
+  },
+}));
+
 const App = () => {
+  const classes = useStyles();
   const [color, setColor] = React.useState(() => {
     const queryColor = getQueryParameter('color');
     if ([WHITE, BLACK].includes(queryColor)) {
@@ -77,14 +85,14 @@ const App = () => {
 
   const Content = () => {
     return (
-      <Grid container direction='column' /*alignItems='stretch'*/>
+      <Grid container direction='column'>
         <Typography variant='h2' component='h2'>
           Should I play {move}?
         </Typography>
         <Typography>Database contains {whiteTotal} games</Typography>
         <Grid container>
           <Grid item>
-            <Typography variant='h5'>Choose a move</Typography>
+            <Typography variant='h5' className={classes.title}>Choose a move</Typography>
           </Grid>
           <Grid item container spacing={1} alignItems='center'>
             <Grid item>
@@ -112,7 +120,7 @@ const App = () => {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant='h5'>Filter by game period</Typography>
+            <Typography variant='h5' className={classes.title}>Filter by game period</Typography>
           </Grid>
           <Grid item container spacing={1} alignItems='center'>
             <Grid item>
@@ -135,7 +143,7 @@ const App = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Typography variant='h5'>Result</Typography>
+          <Typography variant='h5' className={classes.title}>Result</Typography>
         </Grid>
         <Grid item>
           <Graph graphData={graphData} title={graphTitle} />
