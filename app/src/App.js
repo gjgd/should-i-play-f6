@@ -157,13 +157,13 @@ const App = () => {
   return (
     <div className='App'>
       <Grid container alignItems='center' justify='center'>
-        <Grid item md={3} sm={0}></Grid>
-        <Grid item md={6} sm={0}>
+        <Grid item md={3} sm={false}></Grid>
+        <Grid item md={6} sm={false}>
           <Paper elevation={3} className={classes.paper}>
             <Content />
           </Paper>
         </Grid>
-        <Grid item md={3} sm={0}></Grid>
+        <Grid item md={3} sm={false}></Grid>
       </Grid>
     </div>
   );
