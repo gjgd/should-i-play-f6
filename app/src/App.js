@@ -1,4 +1,6 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MoveInput, Graph, ColorRadioButtons, GamePeriodCheckboxes } from './components';
@@ -19,7 +21,17 @@ import {
   whiteMoves,
 } from './data';
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+  },
+  title: {
+    marginTop: theme.spacing(4),
+  },
+}));
+
 const App = () => {
+  const classes = useStyles();
   const [color, setColor] = React.useState(() => {
     const queryColor = getQueryParameter('color');
     if ([WHITE, BLACK].includes(queryColor)) {
@@ -74,32 +86,85 @@ const App = () => {
     updateQueryParameter('move', move);
   }, [color, move, gamePeriods]);
 
-  return (
-    <div className='App'>
-      <Paper elevation={3}>
+  const Content = () => {
+    return (
+      <Grid container direction='column'>
         <Typography variant='h2' component='h2'>
           Should I play {move}?
         </Typography>
         <Typography>Database contains {whiteTotal} games</Typography>
-        <ColorRadioButtons color={color} onChange={(event) => {
-          setColor(event.target.value);
-        }} />
-        <MoveInput
-          color={color}
-          move={move}
-          onChange={(_, newValue) => {
-            setMove(newValue);
-          }}
-        />
-        <GamePeriodCheckboxes gamePeriods={gamePeriods} onChange={(event) => {
-          const newGamePeriods = {
-            ...gamePeriods,
-            [event.target.name]: Boolean(event.target.checked),
-          };
-          setGamePeriods(newGamePeriods);
-        }} />
-        <Graph graphData={graphData} title={graphTitle} />
-      </Paper>
+        <Grid container>
+          <Grid item>
+            <Typography variant='h5' className={classes.title}>Choose a move</Typography>
+          </Grid>
+          <Grid item container spacing={1} alignItems='center'>
+            <Grid item>
+              <Typography>Include games where</Typography>
+            </Grid>
+            <Grid item>
+              <ColorRadioButtons
+                color={color}
+                onChange={(event) => {
+                  setColor(event.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Typography>played the move</Typography>
+            </Grid>
+            <Grid item>
+              <MoveInput
+                color={color}
+                move={move}
+                onChange={(_, newValue) => {
+                  setMove(newValue);
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Typography variant='h5' className={classes.title}>Filter by game period</Typography>
+          </Grid>
+          <Grid item container spacing={1} alignItems='center'>
+            <Grid item>
+              <Typography>
+                Include games where the move was played in the
+              </Typography>
+            </Grid>
+            <Grid item>
+              <GamePeriodCheckboxes
+                gamePeriods={gamePeriods}
+                onChange={(event) => {
+                  const newGamePeriods = {
+                    ...gamePeriods,
+                    [event.target.name]: Boolean(event.target.checked),
+                  };
+                  setGamePeriods(newGamePeriods);
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography variant='h5' className={classes.title}>Result</Typography>
+        </Grid>
+        <Grid item>
+          <Graph graphData={graphData} title={graphTitle} />
+        </Grid>
+      </Grid>
+    );
+  }
+  return (
+    <div className='App'>
+      <Grid container alignItems='center' justify='center'>
+        <Grid item md={3} sm={false}></Grid>
+        <Grid item md={6} sm={false}>
+          <Paper elevation={3} className={classes.paper}>
+            <Content />
+          </Paper>
+        </Grid>
+        <Grid item md={3} sm={false}></Grid>
+      </Grid>
     </div>
   );
 }
