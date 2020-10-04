@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-// import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MoveInput, Graph, ColorRadioButtons, GamePeriodCheckboxes } from './components';
 import {
@@ -22,6 +22,9 @@ import {
 } from './data';
 
 const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+  },
   title: {
     marginTop: theme.spacing(4),
   },
@@ -154,11 +157,13 @@ const App = () => {
   return (
     <div className='App'>
       <Grid container alignItems='center' justify='center'>
-        <Grid item md={4} sm={0}></Grid>
-        <Grid item md={4} sm={0}>
-          <Content />
+        <Grid item md={3} sm={0}></Grid>
+        <Grid item md={6} sm={0}>
+          <Paper elevation={3} className={classes.paper}>
+            <Content />
+          </Paper>
         </Grid>
-        <Grid item md={4} sm={0}></Grid>
+        <Grid item md={3} sm={0}></Grid>
       </Grid>
     </div>
   );
