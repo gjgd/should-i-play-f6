@@ -145,7 +145,13 @@ const App = () => {
   }
   return (
     <div className='App'>
-      <Content />
+      <Grid container alignItems='center' justify='center'>
+        <Grid item md={4} sm={0}></Grid>
+        <Grid item md={4} sm={0}>
+          <Content />
+        </Grid>
+        <Grid item md={4} sm={0}></Grid>
+      </Grid>
     </div>
   );
 }
